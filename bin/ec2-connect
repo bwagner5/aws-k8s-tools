@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+instance_id="$@"
+if [[ ! $@ =~ ^i\-[0-9a-z]+ ]]; then
+    instance_id=$(aws ec2 describe-instances --filters Name=private-dns-name,Values=$@ --query Reservations[*].Instances[*].[InstanceId] --output text)
+fi
+
+aws ssm start-session --target "${instance_id}"
+
