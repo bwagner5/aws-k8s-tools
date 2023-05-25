@@ -6,6 +6,4 @@ if [[ ! $@ =~ ^i\-[0-9a-z]+ ]]; then
   instance_id=$(aws ec2 describe-instances --filters Name=private-dns-name,Values=$@ --query Reservations[*].Instances[*].[InstanceId] --output text)
 fi
 
-aws ec2 modify-instance-attribute --disable-api-termination --instance-id "${instance_id}"
-
-echo "✅ Protected $instance_id from termination"
+aws ec2 describe-instance-attribute --instance-id "${instance_id}" --attribute userData --query 'UserData.Value' --out text | base64 -d

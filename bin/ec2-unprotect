@@ -1,10 +1,10 @@
- #!/bin/bash
- set -euo pipefail
+#!/usr/bin/env bash
+set -euo pipefail
 
- instance_id="$@"
- if [[ ! $@ =~ ^i\-[0-9a-z]+ ]]; then
-     instance_id=$(aws ec2 describe-instances --filters Name=private-dns-name,Values=$@ --query Reservations[*].Instances[*].[InstanceId] --output text)
- fi
+instance_id="$(echo "$@" | grep -o '^i\-[0-9a-z]\+' || :)"
+if [[ ! $@ =~ ^i\-[0-9a-z]+ ]]; then
+  instance_id=$(aws ec2 describe-instances --filters Name=private-dns-name,Values=$@ --query Reservations[*].Instances[*].[InstanceId] --output text)
+fi
 
 aws ec2 modify-instance-attribute --no-disable-api-termination --instance-id "${instance_id}"
 
