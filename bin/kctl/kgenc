@@ -1,0 +1,2 @@
+#!/bin/bash
+kubectl get ec2nodeclass -o wide $@
