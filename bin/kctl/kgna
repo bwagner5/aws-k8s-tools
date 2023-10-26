@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kubectl get nodes -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type $@
+kubectl get nodes -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/nodepool -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type $@
